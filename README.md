@@ -1,296 +1,296 @@
 # 🚨 FBI Information Assistant Chatbot
 
-Un chatbot alimenté par l'IA qui vous permet d'accéder aux informations officielles de la base de données des personnes recherchées par le FBI.
+An AI-powered chatbot that allows you to access official information from the FBI's wanted persons database.
 
-## 🎯 Objectifs du Projet
+## 🎯 Project Goals
 
-Ce chatbot vous permet de :
-- Accéder à la liste des personnes les plus recherchées par le FBI
-- Rechercher des personnes spécifiques par nom
-- Filtrer les recherches par critères (sexe, âge, etc.)
-- Obtenir des informations détaillées sur les personnes recherchées
-- Consulter la liste des terroristes les plus recherchés
-- Interagir avec les données FBI via une interface conversationnelle naturelle
+This chatbot allows you to:
+- Access the FBI's most wanted persons list
+- Search for specific individuals by name
+- Filter searches by criteria (gender, age, etc.)
+- Get detailed information about wanted persons
+- View the most wanted terrorists list
+- Interact with FBI data through a natural conversational interface
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
-- Python 3.9+ installé sur votre système
-- Éditeur de texte ou IDE (VS Code recommandé)
-- Connexion Internet pour l'accès à l'API FBI
-- Clé API Google AI Studio (niveau gratuit disponible)
+- Python 3.9+ installed on your system
+- Text editor or IDE (VS Code recommended)
+- Internet connection for FBI API access
+- Google AI Studio API key (free tier available)
 
-## 🏗️ Architecture du Projet
+## 🏗️ Project Architecture
 
 ```
 FBI Information Assistant
-├── frontend.py          # Interface utilisateur Streamlit
-├── backend.py           # Logique IA et orchestration des agents
-├── tools.py             # Outils personnalisés pour l'API FBI
-├── prompts.py           # Prompts système et modèles de conversation
-├── utils.py             # Fonctions utilitaires
-├── requirements.txt     # Dépendances Python
-└── config.env          # Variables d'environnement (clés API)
+├── frontend.py          # Streamlit user interface
+├── backend.py           # AI logic and agent orchestration
+├── tools.py             # Custom tools for FBI API
+├── prompts.py           # System prompts and conversation templates
+├── utils.py             # Utility functions
+├── requirements.txt     # Python dependencies
+└── config.env          # Environment variables (API keys)
 ```
 
-### 🧠 Comment ça fonctionne
+### 🧠 How It Works
 
-1. **Frontend (`frontend.py`)**: Interface web créée avec [Streamlit](https://docs.streamlit.io/)
-2. **Backend (`backend.py`)**: Orchestre la conversation IA en utilisant LangChain
-3. **Outils (`tools.py`)**: Étend les capacités de l'IA avec l'accès à l'API FBI
-4. **Système de mémoire**: Se souvient du contexte de conversation pour un dialogue naturel
-5. **Monitoring**: Suit l'utilisation de l'IA avec Langfuse
+1. **Frontend (`frontend.py`)**: Web interface created with [Streamlit](https://docs.streamlit.io/)
+2. **Backend (`backend.py`)**: Orchestrates AI conversation using LangChain
+3. **Tools (`tools.py`)**: Extends AI capabilities with FBI API access
+4. **Memory System**: Remembers conversation context for natural dialogue
+5. **Monitoring**: Tracks AI usage with Langfuse
 
-## 🚀 Guide de Démarrage Rapide
+## 🚀 Quick Start Guide
 
-### Étape 1: Installation des Dépendances
+### Step 1: Install Dependencies
 
 ```bash
-# Créer un environnement virtuel
+# Create virtual environment
 python -m venv venv
 
-# Activer l'environnement virtuel
+# Activate virtual environment
 # Windows:
 venv\Scripts\activate
 # Mac/Linux:
 source venv/bin/activate
 
-# Installer les packages requis
+# Install required packages
 pip install -r requirements.txt
 ```
 
-### Étape 2: Configuration des Variables d'Environnement
+### Step 2: Configure Environment Variables
 
-Créez un fichier `config.env` et ajoutez vos clés API :
+Create a `config.env` file and add your API keys:
 
 ```env
-# Clé API Google AI Studio (niveau gratuit disponible)
-GOOGLE_AI_STUDIO_API_KEY=votre_cle_google_ai_ici
+# Google AI Studio API Key (free tier available)
+GOOGLE_AI_STUDIO_API_KEY=your_google_ai_key_here
 
-# Clés Langfuse pour le monitoring (optionnel)
-LANGFUSE_PUBLIC_KEY=votre_cle_publique
-LANGFUSE_SECRET_KEY=votre_cle_secrete
+# Langfuse keys for monitoring (optional)
+LANGFUSE_PUBLIC_KEY=your_public_key
+LANGFUSE_SECRET_KEY=your_secret_key
 ```
 
-**Obtenir les clés API :**
-- Google AI Studio : Visitez [ai.google.dev](https://ai.google.dev) pour créer une clé API gratuite
-- Langfuse : Visitez [langfuse.com](https://langfuse.com) pour le monitoring (optionnel)
+**Getting API Keys:**
+- Google AI Studio: Visit [ai.google.dev](https://ai.google.dev) to create a free API key
+- Langfuse: Visit [langfuse.com](https://langfuse.com) for monitoring (optional)
 
-### Étape 3: Lancer l'Application
+### Step 3: Launch the Application
 
 ```bash
 streamlit run frontend.py
 ```
 
-Votre chatbot s'ouvrira dans votre navigateur à `http://localhost:8501`! 🎉
+Your chatbot will open in your browser at `http://localhost:8501`! 🎉
 
-## 🔍 Fonctionnalités Disponibles
+## 🔍 Available Features
 
-### Outils FBI Intégrés (Basés sur les Données Réelles de l'API)
+### Integrated FBI Tools (Based on Real API Data)
 
-1. **Liste des Plus Recherchés (`get_fbi_most_wanted`)**
-   - Récupère les 8 personnes les plus recherchées par le FBI
-   - Affiche statut (ACTIF/CAPTURÉ), récompenses, avertissements
-   - Informations détaillées : bureau FBI, date de publication, ID unique
+1. **Most Wanted List (`get_fbi_most_wanted`)**
+   - Retrieves the top 8 most wanted persons by the FBI
+   - Shows status (ACTIVE/CAPTURED), rewards, warnings
+   - Detailed information: FBI office, publication date, unique ID
 
-2. **Recherche par Nom (`search_fbi_person_by_name`)**
-   - Recherche complète avec description physique détaillée
-   - Informations personnelles : dates de naissance, nationalité, alias
-   - Données physiques : taille, poids, couleur des yeux/cheveux
-   - Cicatrices, marques distinctives, professions
+2. **Search by Name (`search_fbi_person_by_name`)**
+   - Complete search with detailed physical description
+   - Personal information: birth dates, nationality, aliases
+   - Physical data: height, weight, eye/hair color
+   - Scars, distinctive marks, occupations
 
-3. **Recherche par Bureau FBI (`search_fbi_by_field_office`)**
-   - Filtre par bureau FBI spécifique (ex: "newyork", "losangeles")
-   - Affiche les cas gérés par région géographique
-   - Informations sur les récompenses et statuts par bureau
+3. **Search by FBI Office (`search_fbi_by_field_office`)**
+   - Filter by specific FBI office (e.g., "newyork", "losangeles")
+   - Shows cases managed by geographic region
+   - Information on rewards and status by office
 
-4. **Recherche par Statut (`search_fbi_by_status`)**
-   - Filtre par statut officiel : "captured" (capturés), "na" (actifs)
-   - Suivi de l'évolution des affaires
-   - Dates de publication et mise à jour
+4. **Search by Status (`search_fbi_by_status`)**
+   - Filter by official status: "captured" (captured), "na" (active)
+   - Track case evolution
+   - Publication and update dates
 
-5. **Recherche par Classification Personne (`search_fbi_by_classification`)**
-   - `main` : Liste principale des plus recherchés
-   - `vicap` : Programme d'appréhension de criminels violents
-   - `ecap` : Programme d'alerte pour enfants en danger
-   - `seeking-information` : Cas recherchant des informations
+5. **Search by Person Classification (`search_fbi_by_classification`)**
+   - `main`: Main most wanted list
+   - `vicap`: Violent Criminal Apprehension Program
+   - `ecap`: Endangered Child Alert Program
+   - `seeking-information`: Cases seeking information
 
-6. **Recherche par Classification Poster (`get_fbi_by_poster_classification`)**
-   - `default` : Personnes recherchées standard
-   - `law-enforcement-assistance` : Assistance aux forces de l'ordre
-   - `missing` : Personnes disparues
-   - `information` : Recherche d'informations
+6. **Search by Poster Classification (`get_fbi_by_poster_classification`)**
+   - `default`: Standard wanted persons
+   - `law-enforcement-assistance`: Law enforcement assistance
+   - `missing`: Missing persons
+   - `information`: Information seeking
 
-7. **Détails Complets (`get_fbi_person_details`)**
-   - Informations exhaustives par ID de personne
-   - Description physique complète, informations criminelles
-   - Avertissements de sécurité, détails d'enquête
-   - Ressources disponibles (images, fichiers)
+7. **Complete Details (`get_fbi_person_details`)**
+   - Comprehensive information by person ID
+   - Complete physical description, criminal information
+   - Security warnings, investigation details
+   - Available resources (images, files)
 
-8. **Liste Terrorisme (`get_fbi_terrorism_list`)**
-   - Cases liées au terrorisme et à la sécurité nationale
-   - Informations sur la nationalité et les professions
-   - Avertissements spéciaux de sécurité
+8. **Terrorism List (`get_fbi_terrorism_list`)**
+   - Cases related to terrorism and national security
+   - Information on nationality and occupations
+   - Special security warnings
 
-9. **Recherche Avancée (`get_fbi_advanced_search`)**
-   - Recherche avec options de tri personnalisées
-   - Tri par : publication, titre, sujets
-   - Filtrage par titre avec pagination
+9. **Advanced Search (`get_fbi_advanced_search`)**
+   - Search with custom sorting options
+   - Sort by: publication, title, subjects
+   - Title filtering with pagination
 
-### Données Réelles Exploitées
+### Real Data Exploited
 
-**Informations Personnelles Complètes :**
-- Nom complet, alias, dates de naissance multiples
-- Nationalité, lieu de naissance, langues parlées
-- Professions, liens géographiques
+**Complete Personal Information:**
+- Full name, aliases, multiple birth dates
+- Nationality, place of birth, languages spoken
+- Occupations, geographic connections
 
-**Description Physique Détaillée :**
-- Taille (pieds/pouces), poids, corpulence
-- Couleur des yeux/cheveux (données brutes et formatées)
-- Cicatrices, tatouages, marques distinctives
-- Teint, couleur de peau
+**Detailed Physical Description:**
+- Height (feet/inches), weight, build
+- Eye/hair color (raw and formatted data)
+- Scars, tattoos, distinctive marks
+- Complexion, skin color
 
-**Informations Criminelles :**
-- Charges spécifiques, sujets d'enquête
-- Numéros NCIC, mandats d'arrêt
-- Avertissements de sécurité spécialisés
-- Détails des affaires avec contexte
+**Criminal Information:**
+- Specific charges, investigation subjects
+- NCIC numbers, arrest warrants
+- Specialized security warnings
+- Case details with context
 
-**Données d'Enquête :**
-- Bureaux FBI responsables, dates de publication
-- Statut actuel (actif, capturé)
-- Pays et états possibles de localisation
-- Récompenses et montants spécifiques
+**Investigation Data:**
+- Responsible FBI offices, publication dates
+- Current status (active, captured)
+- Possible countries and states of location
+- Rewards and specific amounts
 
-### Paramètres de Filtrage Officiels
+### Official Filtering Parameters
 
-L'API FBI supporte les critères suivants :
-- **`title`** : Nom ou partie du nom de la personne
-- **`field_offices`** : Bureau FBI (ex: "newyork", "chicago", "miami")
-- **`status`** : Statut de l'affaire ("captured", "na")
-- **`person_classification`** : Type de classification ("main", "vicap", "ecap")
-- **`sort_on`** : Critère de tri ("publication", "title", "subjects")
-- **`sort_order`** : Ordre de tri ("asc", "desc")
-- **`page`** et **`pageSize`** : Pagination des résultats
+The FBI API supports the following criteria:
+- **`title`**: Name or part of person's name
+- **`field_offices`**: FBI office (e.g., "newyork", "chicago", "miami")
+- **`status`**: Case status ("captured", "na")
+- **`person_classification`**: Classification type ("main", "vicap", "ecap")
+- **`sort_on`**: Sort criteria ("publication", "title", "subjects")
+- **`sort_order`**: Sort order ("asc", "desc")
+- **`page`** and **`pageSize`**: Result pagination
 
-### Exemples d'Utilisation (Données Réelles)
+### Usage Examples (Real Data)
 
-**Recherches de base :**
+**Basic searches:**
 ```
-"Montre-moi la liste des personnes les plus recherchées par le FBI"
-"Recherche John Smith avec toutes ses informations"
-"Affiche la liste des cas de terrorisme"
-```
-
-**Filtrage par bureau FBI :**
-```
-"Recherche dans le bureau FBI de Cincinnati"
-"Montre-moi les cas du bureau de Miami"
-"Trouve les personnes recherchées à Little Rock"
+"Show me the FBI's most wanted persons list"
+"Search for John Smith with all his information"
+"Display the terrorism cases list"
 ```
 
-**Filtrage par statut officiel :**
+**Filter by FBI office:**
 ```
-"Trouve les suspects récemment capturés"
-"Montre-moi toutes les affaires actives"
-"Recherche les personnes avec statut 'captured'"
-```
-
-**Filtrage par classification :**
-```
-"Affiche les cas de la liste principale (main)"
-"Montre-moi les cas VICAP de crimes violents"
-"Trouve les alertes enfants en danger (ECAP)"
-"Recherche les cas seeking-information"
+"Search in the Cincinnati FBI office"
+"Show me cases from the Miami office"
+"Find wanted persons in Little Rock"
 ```
 
-**Classifications de poster :**
+**Filter by official status:**
 ```
-"Montre les cas d'assistance aux forces de l'ordre"
-"Affiche les personnes disparues (missing)"
-"Trouve les cas de recherche d'informations"
-"Montre les personnes recherchées standard"
-```
-
-**Recherches avancées avec données réelles :**
-```
-"Recherche avancée triée par date de publication récente"
-"Trouve 'Dixon' avec toutes ses informations physiques"
-"Montre les résultats triés par titre alphabétique"
+"Find recently captured suspects"
+"Show me all active cases"
+"Search for persons with 'captured' status"
 ```
 
-**Informations exhaustives :**
+**Filter by classification:**
 ```
-"Donne-moi tous les détails pour la personne ID d79f8572987541d2b4c9e4119b8dd444"
-"Affiche la description physique complète de cette personne"
-"Montre les avertissements de sécurité et détails d'enquête"
+"Show main list cases"
+"Show me VICAP violent crime cases"
+"Find Endangered Child Alert Program (ECAP) alerts"
+"Search seeking-information cases"
 ```
 
-**Types de données récupérées :**
-- **Statut en temps réel** : 🔴 ACTIF / 🟢 CAPTURÉ
-- **Informations physiques** : Taille (5'11"), poids (215 lbs), cicatrices
-- **Données biographiques** : Naissance, nationalité, alias
-- **Détails criminels** : Charges spécifiques, avertissements de sécurité
-- **Contexte d'enquête** : Bureau responsable, dates, récompenses
+**Poster classifications:**
+```
+"Show law enforcement assistance cases"
+"Display missing persons"
+"Find information seeking cases"
+"Show standard wanted persons"
+```
 
-## 🛠️ Comprendre le Code
+**Advanced searches with real data:**
+```
+"Advanced search sorted by recent publication date"
+"Find 'Dixon' with all his physical information"
+"Show results sorted alphabetically by title"
+```
 
-### Architecture Frontend (`frontend.py`)
+**Comprehensive information:**
+```
+"Give me all details for person ID d79f8572987541d2b4c9e4119b8dd444"
+"Show the complete physical description of this person"
+"Display security warnings and investigation details"
+```
 
-Le frontend utilise **Streamlit** pour l'interface web :
+**Types of data retrieved:**
+- **Real-time Status**: 🔴 ACTIVE / 🟢 CAPTURED
+- **Physical Information**: Height (5'11"), weight (215 lbs), scars
+- **Biographical Data**: Birth, nationality, aliases
+- **Criminal Details**: Specific charges, security warnings
+- **Investigation Context**: Responsible office, dates, rewards
+
+## 🛠️ Understanding the Code
+
+### Frontend Architecture (`frontend.py`)
+
+The frontend uses **Streamlit** for the web interface:
 
 ```python
-# Composants Streamlit clés :
-st.chat_message()      # Bulles de conversation
-st.chat_input()        # Champ de saisie utilisateur
-st.sidebar.button()    # Fonctionnalité de réinitialisation
-st.session_state       # Stockage de données persistantes
+# Key Streamlit components:
+st.chat_message()      # Chat bubbles
+st.chat_input()        # User input field
+st.sidebar.button()    # Reset functionality
+st.session_state       # Persistent data storage
 ```
 
-### Architecture Backend (`backend.py`)
+### Backend Architecture (`backend.py`)
 
-Le backend orchestre les conversations IA :
+The backend orchestrates AI conversations:
 
 ```python
 class ChatBackend:
     def __init__(self):
-        self.llm = ChatGoogleGenerativeAI()     # Modèle IA
-        self.tools = [get_fbi_tools]            # Outils disponibles
-        self.memory = ConversationBufferMemory() # Mémoire de contexte
+        self.llm = ChatGoogleGenerativeAI()     # AI model
+        self.tools = [get_fbi_tools]            # Available tools
+        self.memory = ConversationBufferMemory() # Context memory
 ```
 
-### Système d'Outils (`tools.py`)
+### Tool System (`tools.py`)
 
-Les outils étendent les capacités de l'IA :
+Tools extend AI capabilities:
 
 ```python
 @tool
 def get_fbi_most_wanted() -> str:
-    """Obtient la liste des personnes les plus recherchées par le FBI"""
-    # Votre implémentation d'outil ici
+    """Gets the FBI's most wanted persons list"""
+    # Your tool implementation here
 ```
 
-## ⚠️ Considérations Importantes
+## ⚠️ Important Considerations
 
-### Sécurité et Responsabilité
+### Security and Responsibility
 
-- **Source Officielle**: Les données proviennent de l'API officielle du FBI
-- **Utilisation Responsable**: Ne pas utiliser pour harceler ou diffamer
-- **Signalement**: Si vous avez des informations sur une personne recherchée, contactez les autorités
+- **Official Source**: Data comes from the official FBI API
+- **Responsible Use**: Do not use for harassment or defamation
+- **Reporting**: If you have information about a wanted person, contact authorities
 
-### Contacts d'Urgence
+### Emergency Contacts
 
 - **FBI**: 1-800-CALL-FBI (1-800-225-5324)
-- **Conseils en ligne**: [tips.fbi.gov](https://tips.fbi.gov)
-- **Urgence locale**: Contactez votre police locale
+- **Online Tips**: [tips.fbi.gov](https://tips.fbi.gov)
+- **Local Emergency**: Contact your local police
 
-### Bureaux FBI Disponibles
+### Available FBI Offices
 
-**Bureaux principaux :**
+**Main offices:**
 - `newyork` - New York
 - `losangeles` - Los Angeles
 - `chicago` - Chicago
 - `miami` - Miami
-- `philadelphia` - Philadelphie
+- `philadelphia` - Philadelphia
 - `boston` - Boston
 - `detroit` - Detroit
 - `houston` - Houston
@@ -299,27 +299,27 @@ def get_fbi_most_wanted() -> str:
 - `baltimore` - Baltimore
 - `cleveland` - Cleveland
 
-**Classifications Spéciales :**
-- `main` - Liste principale des plus recherchés
-- `vicap` - Programme d'appréhension de criminels violents
-- `ecap` - Programme d'alerte pour enfants en danger
-- `seeking-information` - Cas recherchant des informations du public
+**Special Classifications:**
+- `main` - Main most wanted list
+- `vicap` - Violent Criminal Apprehension Program
+- `ecap` - Endangered Child Alert Program
+- `seeking-information` - Cases seeking public information
 
-**Statuts Disponibles :**
-- `captured` - Personnes capturées
-- `na` - Non applicable / Affaires actives
+**Available Statuses:**
+- `captured` - Captured persons
+- `na` - Not applicable / Active cases
 
-## 📊 **Structure des Données FBI Exploitées**
+## 📊 **FBI Data Structure Exploited**
 
-Le chatbot exploite pleinement la richesse de l'API officielle du FBI avec **1053+ personnes** dans la base de données.
+The chatbot fully exploits the richness of the official FBI API with **1053+ persons** in the database.
 
-### 🔍 **Données Personnelles Complètes**
+### 🔍 **Complete Personal Data**
 
-**Exemple de données réelles extraites :**
+**Example of real extracted data:**
 ```json
 {
   "title": "DAVEONTE JAMES DIXON",
-  "status": "captured",  // 🟢 CAPTURÉ ou 🔴 ACTIF
+  "status": "captured",  // 🟢 CAPTURED or 🔴 ACTIVE
   "reward_text": "Reward of up to $25,000",
   "height_min": 73,     // 6'1"
   "weight": "215 pounds",
@@ -332,157 +332,157 @@ Le chatbot exploite pleinement la richesse de l'API officielle du FBI avec **105
 }
 ```
 
-### 📋 **Types de Classifications Réelles**
+### 📋 **Real Classification Types**
 
-**Poster Classifications :**
-- `law-enforcement-assistance` : Assistance aux forces de l'ordre (Dixon, Hardin)
-- `missing` : Personnes disparues (Fleming, Hatfield) 
-- `default` : Personnes recherchées standard (Martinez, Astorga)
-- `information` : Recherche d'informations (Pike, Panjaki)
+**Poster Classifications:**
+- `law-enforcement-assistance`: Law enforcement assistance (Dixon, Hardin)
+- `missing`: Missing persons (Fleming, Hatfield)
+- `default`: Standard wanted persons (Martinez, Astorga)
+- `information`: Information seeking (Pike, Panjaki)
 
-**Person Classifications :**
-- `Main` : Liste principale des plus recherchés
-- `Victim` : Victimes dans des affaires (Morgan)
+**Person Classifications:**
+- `Main`: Main most wanted list
+- `Victim`: Victims in cases (Morgan)
 
-### 🏢 **Bureaux FBI Actifs**
+### 🏢 **Active FBI Offices**
 
-Bureaux avec des affaires en cours :
+Offices with ongoing cases:
 - `cincinnati`, `littlerock`, `neworleans`
 - `miami`, `birmingham`, `sacramento`
 - `charlotte`, `indianapolis`, `phoenix`
 
-### ⚠️ **Avertissements de Sécurité Réels**
+### ⚠️ **Real Security Warnings**
 
-Messages d'avertissement officiels :
+Official warning messages:
 - "SHOULD BE CONSIDERED ARMED AND DANGEROUS"
 - "SHOULD BE CONSIDERED ARMED AND DANGEROUS WITH VIOLENT TENDENCIES"
 - "SHOULD BE CONSIDERED ARMED AND DANGEROUS AND AN ESCAPE RISK"
 
-### 💰 **Récompenses Actuelles**
+### 💰 **Current Rewards**
 
-Montants réels offerts par le FBI :
-- **$75,000** : Emily Pike (meurtre)
-- **$50,000** : Asha Jaquilla Degree (disparition)
-- **$25,000** : Daveonte James Dixon (tentative de meurtre)
-- **$20,000** : Grant Matthew Hardin (évasion)
+Real amounts offered by the FBI:
+- **$75,000**: Emily Pike (murder)
+- **$50,000**: Asha Jaquilla Degree (disappearance)
+- **$25,000**: Daveonte James Dixon (attempted murder)
+- **$20,000**: Grant Matthew Hardin (escape)
 
-### 📅 **Données Temporelles**
+### 📅 **Temporal Data**
 
-- **Publication** : Dates de mise en ligne des avis
-- **Modification** : Dernières mises à jour des dossiers
-- **Chronologie** : Affaires de 1986 à 2025
+- **Publication**: Notice posting dates
+- **Modification**: Last file updates
+- **Timeline**: Cases from 1986 to 2025
 
-### 🌍 **Données Géographiques**
+### 🌍 **Geographic Data**
 
-- **Possible Countries** : MEX, USA (Martinez)
-- **Possible States** : US-AL, US-FL, US-TX (affaires multi-états)
-- **Coordinates** : Localisation précise quand disponible
+- **Possible Countries**: MEX, USA (Martinez)
+- **Possible States**: US-AL, US-FL, US-TX (multi-state cases)
+- **Coordinates**: Precise location when available
 
-## 💡 **Avantages de l'Intégration Complète**
+## 💡 **Complete Integration Benefits**
 
-✅ **Données 100% Officielles** - Source directe FBI API
-✅ **Informations Temps Réel** - Statuts mis à jour (capturé/actif)
-✅ **Descriptions Physiques Précises** - Taille, poids, signes distinctifs
-✅ **Avertissements de Sécurité** - Messages officiels du FBI
-✅ **Géolocalisation** - Bureaux responsables, états possibles
-✅ **Classification Professionnelle** - Types d'affaires et priorités
-✅ **Historique Complet** - De 1986 à aujourd'hui
-✅ **Multilinguisme** - Fiches en plusieurs langues disponibles
+✅ **100% Official Data** - Direct FBI API source
+✅ **Real-Time Information** - Updated status (captured/active)
+✅ **Precise Physical Descriptions** - Height, weight, distinctive signs
+✅ **Security Warnings** - Official FBI messages
+✅ **Geolocation** - Responsible offices, possible states
+✅ **Professional Classification** - Case types and priorities
+✅ **Complete History** - From 1986 to today
+✅ **Multilingual** - Files available in multiple languages
 
-## 🔧 Personnalisation
+## 🔧 Customization
 
-### Ajouter de Nouveaux Outils
+### Adding New Tools
 
-Pour créer un nouvel outil FBI :
+To create a new FBI tool:
 
 ```python
 @tool
-def votre_outil_personnalise(parametre: str) -> str:
-    """Décrit ce que fait votre outil.
+def your_custom_tool(parameter: str) -> str:
+    """Describes what your tool does.
     
     Args:
-        parametre: Décrit le paramètre d'entrée
+        parameter: Describes the input parameter
         
     Returns:
-        Une chaîne avec la réponse de l'outil
+        A string with the tool's response
     """
     try:
-        # Votre appel API ici
-        response = requests.get(f"https://api.fbi.gov/wanted/v1/{parametre}")
+        # Your API call here
+        response = requests.get(f"https://api.fbi.gov/wanted/v1/{parameter}")
         data = response.json()
         
-        # Formater et retourner les résultats
-        return f"Votre réponse formatée: {data}"
+        # Format and return results
+        return f"Your formatted response: {data}"
         
     except Exception as e:
-        return f"Erreur: {str(e)}"
+        return f"Error: {str(e)}"
 ```
 
-**N'oubliez pas de :**
-1. Importer votre outil dans `backend.py`
-2. L'ajouter à la liste des outils dans `_setup_tools()`
-3. Le tester dans l'interface de chat !
+**Don't forget to:**
+1. Import your tool in `backend.py`
+2. Add it to the tools list in `_setup_tools()`
+3. Test it in the chat interface!
 
-### Modifier la Personnalité de l'IA
+### Modify AI Personality
 
-Éditez `prompts.py` pour changer le comportement de votre IA :
+Edit `prompts.py` to change your AI's behavior:
 
 ```python
 SYSTEM_PROMPT = """
-Vous êtes un assistant spécialisé dans les informations FBI...
-[Votre personnalité personnalisée ici]
+You are an assistant specialized in FBI information...
+[Your custom personality here]
 """
 ```
 
-## 🌐 Ressources Utiles
+## 🌐 Useful Resources
 
-- **[Documentation Streamlit](https://docs.streamlit.io/)**: Guide complet pour créer des applications web
-- **[API FBI](https://www.fbi.gov/wanted/api)**: Documentation officielle de l'API FBI
-- **[Documentation LangChain](https://python.langchain.com/)**: Framework pour applications IA
-- **[Google AI Studio](https://ai.google.dev)**: Accès gratuit aux modèles IA
+- **[Streamlit Documentation](https://docs.streamlit.io/)**: Complete guide to building web apps
+- **[FBI API](https://www.fbi.gov/wanted/api)**: Official FBI API documentation
+- **[LangChain Documentation](https://python.langchain.com/)**: Framework for AI applications
+- **[Google AI Studio](https://ai.google.dev)**: Free access to AI models
 
-## 🐛 Dépannage
+## 🐛 Troubleshooting
 
-### Problèmes Courants
+### Common Issues
 
-**Erreurs "Module non trouvé" :**
+**"Module not found" errors:**
 ```bash
-# Assurez-vous que l'environnement virtuel est activé
+# Make sure virtual environment is activated
 source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
-# Réinstaller les dépendances
+# Reinstall dependencies
 pip install -r requirements.txt
 ```
 
-**Erreurs de clé API :**
-- Vérifiez que votre fichier `config.env` existe
-- Vérifiez que les clés API sont correctes
-- Assurez-vous qu'il n'y a pas d'espaces supplémentaires dans le fichier
+**API key errors:**
+- Check that your `config.env` file exists
+- Verify API keys are correct
+- Ensure no extra spaces in the file
 
-**Streamlit ne démarre pas :**
+**Streamlit won't start:**
 ```bash
-# Vérifiez si le port est disponible
+# Check if port is available
 streamlit run frontend.py
 ```
 
-**Erreurs API FBI :**
-- L'API FBI est publique mais peut avoir des limites de débit
-- Vérifiez votre connexion Internet
-- Certaines requêtes peuvent prendre du temps
+**FBI API errors:**
+- The FBI API is public but may have rate limits
+- Check your internet connection
+- Some queries may take time
 
-## 📝 Utilisation Éthique
+## 📝 Ethical Use
 
-Ce chatbot est conçu pour :
-- ✅ Accéder aux informations publiques du FBI
-- ✅ Éduquer sur les personnes recherchées
-- ✅ Faciliter le signalement d'informations aux autorités
+This chatbot is designed for:
+- ✅ Accessing public FBI information
+- ✅ Educating about wanted persons
+- ✅ Facilitating information reporting to authorities
 
-Ne l'utilisez pas pour :
-- ❌ Harceler ou diffamer des individus
-- ❌ Activités illégales ou non éthiques
-- ❌ Diffuser de fausses informations
+Do not use it for:
+- ❌ Harassing or defaming individuals
+- ❌ Illegal or unethical activities
+- ❌ Spreading false information
 
 ---
 
-**Note légale**: Ce projet utilise l'API publique du FBI et est destiné à des fins éducatives et informatives. Les utilisateurs sont responsables de l'utilisation éthique et légale des informations obtenues.
+**Legal Note**: This project uses the public FBI API and is intended for educational and informational purposes. Users are responsible for ethical and legal use of the information obtained.
