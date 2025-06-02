@@ -95,24 +95,6 @@ def setup_sidebar(msgs):
             - "Show full profile for case XYZ"
             """)
     
-    # Available field offices info with a selectbox
-    with st.sidebar.expander("🏢 FBI Field Offices"):
-        office = st.selectbox(
-            "Select a major field office:",
-            ["New York", "Los Angeles", "Chicago", "Miami", "Philadelphia", "Boston"],
-            key="field_office_select"
-        )
-        st.write(f"Selected office: {office}")
-    
-    # Classifications info with radio buttons
-    with st.sidebar.expander("📌 Case Classifications"):
-        classification = st.radio(
-            "Select classification type:",
-            ["Most Wanted", "Terrorism", "Missing Persons", "Law Enforcement Assistance"],
-            key="classification_radio"
-        )
-        st.write(f"Selected classification: {classification}")
-    
     # Important notice with a download button
     with st.sidebar.expander("⚠️ Important Notice"):
         st.warning("""
@@ -140,6 +122,22 @@ def setup_sidebar(msgs):
         msgs.add_ai_message(INITIAL_MESSAGE)
         st.session_state.steps = {}
         st.rerun()
+    
+    # Add language toggle at the bottom of sidebar
+    st.sidebar.markdown("---")
+    col1, col2 = st.sidebar.columns([0.7, 0.3])
+    with col2:
+        if 'language' not in st.session_state:
+            st.session_state.language = 'en'
+        
+        if st.session_state.language == 'en':
+            if st.button("🇫🇷", help="Switch to French", key="lang_fr"):
+                st.session_state.language = 'fr'
+                st.rerun()
+        else:
+            if st.button("🇺🇸", help="Switch to English", key="lang_en"):
+                st.session_state.language = 'en'
+                st.rerun()
 
 def setup_chat_memory():
     """
@@ -162,7 +160,6 @@ def initialize_chat_if_needed(msgs):
     if len(msgs.messages) == 0:
         msgs.add_ai_message(INITIAL_MESSAGE)
         st.session_state.steps = {}
-        st.snow()  # Add snow effect when chat is initialized
 
 
 def add_reset_button(msgs):
@@ -231,6 +228,12 @@ def handle_user_input(msgs, memory, backend):
     Handle user input and generate AI response.
     """
     if prompt := st.chat_input(placeholder=CHAT_INPUT_PLACEHOLDER):
+        # Add language prefix if French is selected
+        if st.session_state.language == 'fr':
+            prompt = "Réponds en français : " + prompt
+        else:
+            prompt = "Answer in English : " + prompt
+        
         # Display user message
         st.chat_message("human", avatar="👤").write(prompt)
         
