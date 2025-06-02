@@ -6,6 +6,8 @@ import streamlit as st
 from langchain.memory import ConversationBufferMemory
 from langchain_community.callbacks import StreamlitCallbackHandler
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+import time
+import random
 
 # Import our backend logic
 from backend import get_backend_instance
@@ -18,7 +20,8 @@ def setup_page():
     st.set_page_config(
         page_title="FBI Information Assistant",
         page_icon="🚨",
-        layout="wide"
+        layout="wide",
+        initial_sidebar_state="expanded"
     )
     
     # Header with FBI theme
@@ -36,15 +39,14 @@ def setup_page():
     
     with col3:
         st.info("📄 **Detailed Information**\nGet comprehensive person details and alerts")
-    
 
-def setup_sidebar():
+def setup_sidebar(msgs):
     """
     Create an FBI-themed sidebar with information and controls.
     """
     st.sidebar.header("🏛️ FBI Database Access")
     
-    # FBI service info
+    # FBI service info with expandable sections
     with st.sidebar.expander("🔍 What can I do?"):
         st.write("""
         I can help you access official FBI information:
@@ -66,57 +68,52 @@ def setup_sidebar():
         **Data Source:** Official FBI API
         """)
     
-    # Quick examples
+    # Quick examples with tabs
     with st.sidebar.expander("💡 Try These Examples"):
-        st.write("""
-        **Basic Searches:**
-        - "Show me the FBI most wanted list"
-        - "Search for John Smith"
-        - "Show me the terrorism list"
+        tab1, tab2, tab3 = st.tabs(["Basic", "Advanced", "Details"])
         
-        **Advanced Filtering:**
-        - "Search by New York field office"
-        - "Find captured suspects"
-        - "Show main classification cases"
-        - "Get law enforcement assistance cases"
-        - "Find missing persons cases"
-        - "Search with advanced options sorted by publication date"
+        with tab1:
+            st.write("""
+            **Basic Searches:**
+            - "Show me the FBI most wanted list"
+            - "Search for John Smith"
+            - "Show me the terrorism list"
+            """)
         
-        **Detailed Info:**
-        - "Get details for person ID 12345"
-        """)
+        with tab2:
+            st.write("""
+            **Advanced Filtering:**
+            - "Search by New York field office"
+            - "Find captured suspects"
+            - "Show main classification cases"
+            """)
+        
+        with tab3:
+            st.write("""
+            **Detailed Info:**
+            - "Get details for person ID 12345"
+            - "Show full profile for case XYZ"
+            """)
     
-    # Available field offices info
+    # Available field offices info with a selectbox
     with st.sidebar.expander("🏢 FBI Field Offices"):
-        st.write("""
-        **Major Field Offices:**
-        - newyork, losangeles, chicago
-        - miami, philadelphia, boston
-        - detroit, houston, atlanta
-        - phoenix, baltimore, cleveland
-        
-        **Special Cases:**
-        - Missing persons cases
-        - Law enforcement assistance
-        - Seeking information cases
-        """)
+        office = st.selectbox(
+            "Select a major field office:",
+            ["New York", "Los Angeles", "Chicago", "Miami", "Philadelphia", "Boston"],
+            key="field_office_select"
+        )
+        st.write(f"Selected office: {office}")
     
-    # Classifications info  
+    # Classifications info with radio buttons
     with st.sidebar.expander("📌 Case Classifications"):
-        st.write("""
-        **Poster Classifications:**
-        - default: Standard wanted persons
-        - law-enforcement-assistance: LE assistance cases
-        - missing: Missing persons
-        - information: Seeking information
-        
-        **Person Classifications:**
-        - main: Most Wanted list
-        - vicap: Violent crimes
-        - ecap: Endangered children
-        """)
+        classification = st.radio(
+            "Select classification type:",
+            ["Most Wanted", "Terrorism", "Missing Persons", "Law Enforcement Assistance"],
+            key="classification_radio"
+        )
+        st.write(f"Selected classification: {classification}")
     
-    # Important notice
+    # Important notice with a download button
     with st.sidebar.expander("⚠️ Important Notice"):
         st.warning("""
         **If you have information about any wanted person:**
@@ -127,7 +124,22 @@ def setup_sidebar():
         
         This information is from official FBI sources.
         """)
+        
+        # Add a download button for FBI contact information
+        st.download_button(
+            label="📥 Download FBI Contact Info",
+            data="FBI Emergency Contact: 1-800-CALL-FBI\nFBI Tips Website: tips.fbi.gov",
+            file_name="fbi_contact_info.txt",
+            mime="text/plain",
+            key="download_contact_info"
+        )
     
+    # Reset button
+    if st.sidebar.button("🔄 Reset Chat", help="Start a new conversation", key="reset_chat_button"):
+        msgs.clear()
+        msgs.add_ai_message(INITIAL_MESSAGE)
+        st.session_state.steps = {}
+        st.rerun()
 
 def setup_chat_memory():
     """
@@ -150,6 +162,7 @@ def initialize_chat_if_needed(msgs):
     if len(msgs.messages) == 0:
         msgs.add_ai_message(INITIAL_MESSAGE)
         st.session_state.steps = {}
+        st.snow()  # Add snow effect when chat is initialized
 
 
 def add_reset_button(msgs):
@@ -233,6 +246,9 @@ def handle_user_input(msgs, memory, backend):
             
             # Store tool usage steps
             st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
+            
+            # Add balloons when search is complete
+            st.balloons()
 
 
 def main():
@@ -242,18 +258,15 @@ def main():
     # Setup page
     setup_page()
     
-    # Setup sidebar
-    setup_sidebar()
-    
     # Initialize backend and memory
     backend = get_backend_instance()
     msgs, memory = setup_chat_memory()
     
+    # Setup sidebar with msgs
+    setup_sidebar(msgs)
+    
     # Initialize chat
     initialize_chat_if_needed(msgs)
-    
-    # Add controls
-    add_reset_button(msgs)
     
     # Display conversation
     display_chat_messages(msgs)
