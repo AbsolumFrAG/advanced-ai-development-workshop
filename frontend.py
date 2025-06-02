@@ -1,5 +1,5 @@
 """
-LXP - Advanced AI development Workshop: AI Weatherman frontend
+LXP - Advanced AI development Workshop: FBI Information Assistant frontend
 """
 
 import streamlit as st
@@ -13,58 +13,121 @@ from prompts import INITIAL_MESSAGE, CHAT_INPUT_PLACEHOLDER
 
 def setup_page():
     """
-    Configure the Streamlit page with weather theme.
+    Configure the Streamlit page with FBI theme.
     """
     st.set_page_config(
-        page_title="AI Weatherman",
-        page_icon="🌤️",
+        page_title="FBI Information Assistant",
+        page_icon="🚨",
         layout="wide"
     )
     
-    # Simple header with weather theme
-    st.title("🌤️ AI Weatherman")
-    st.subheader("Your AI Weather Assistant")
+    # Header with FBI theme
+    st.title("🚨 FBI Information Assistant")
+    st.subheader("Access Official FBI Wanted Persons Database")
     
-    # Add weather info boxes using columns
+    # Add FBI info boxes using columns
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.info("🌍 **Global Coverage**\nGet weather for any city worldwide")
+        st.info("🔍 **Search Database**\nFind wanted persons by name or criteria")
     
     with col2:
-        st.info("⚡ **Real-time Data**\nTemperature, precipitation and wind")
+        st.info("📋 **Most Wanted Lists**\nAccess FBI's most wanted and terrorism lists")
     
     with col3:
-        st.info("📈 **Detailed 7-Day Wind Forecasts**\nWind forecast")
+        st.info("📄 **Detailed Information**\nGet comprehensive person details and alerts")
     
 
 def setup_sidebar():
     """
-    Create a weather-themed sidebar with information and controls.
+    Create an FBI-themed sidebar with information and controls.
     """
-    st.sidebar.header("🌦️ Weather Station")
+    st.sidebar.header("🏛️ FBI Database Access")
     
-    # Weather service info
-    with st.sidebar.expander("📡 What can I do?"):
+    # FBI service info
+    with st.sidebar.expander("🔍 What can I do?"):
         st.write("""
-        I can help you get comprehensive weather information for any location.
-        I can query the following tools:
-        - Current temperature, precipitation and wind for any city
-        - Wind forecast for any city
-        - Get the latitude and longitude of any city
+        I can help you access official FBI information:
+        
+        **Available searches:**
+        - FBI Most Wanted list
+        - Most Wanted Terrorists
+        - Search by person name
+        - Filter by FBI field office
+        - Filter by status (captured, etc.)
+        - Filter by classification type
+        - Advanced search with sorting
+        - Get detailed person information
+        
+        **Official Criteria Available:**
+        - Field offices, Status, Classifications
+        - Title search, Sorting options
+        
+        **Data Source:** Official FBI API
         """)
     
     # Quick examples
     with st.sidebar.expander("💡 Try These Examples"):
         st.write("""
-        **Sample Questions:**
-        - "What's the weather in London?"
-        - "Will it rain in Tokyo tomorrow?"
-        - "Show me the wind forecast for Miami"
-        - "What's the temperature in Sydney?"
+        **Basic Searches:**
+        - "Show me the FBI most wanted list"
+        - "Search for John Smith"
+        - "Show me the terrorism list"
+        
+        **Advanced Filtering:**
+        - "Search by New York field office"
+        - "Find captured suspects"
+        - "Show main classification cases"
+        - "Get law enforcement assistance cases"
+        - "Find missing persons cases"
+        - "Search with advanced options sorted by publication date"
+        
+        **Detailed Info:**
+        - "Get details for person ID 12345"
         """)
     
-
+    # Available field offices info
+    with st.sidebar.expander("🏢 FBI Field Offices"):
+        st.write("""
+        **Major Field Offices:**
+        - newyork, losangeles, chicago
+        - miami, philadelphia, boston
+        - detroit, houston, atlanta
+        - phoenix, baltimore, cleveland
+        
+        **Special Cases:**
+        - Missing persons cases
+        - Law enforcement assistance
+        - Seeking information cases
+        """)
+    
+    # Classifications info  
+    with st.sidebar.expander("📌 Case Classifications"):
+        st.write("""
+        **Poster Classifications:**
+        - default: Standard wanted persons
+        - law-enforcement-assistance: LE assistance cases
+        - missing: Missing persons
+        - information: Seeking information
+        
+        **Person Classifications:**
+        - main: Most Wanted list
+        - vicap: Violent crimes
+        - ecap: Endangered children
+        """)
+    
+    # Important notice
+    with st.sidebar.expander("⚠️ Important Notice"):
+        st.warning("""
+        **If you have information about any wanted person:**
+        
+        🚨 Contact local law enforcement immediately
+        📞 Call FBI: 1-800-CALL-FBI (1-800-225-5324)
+        🌐 Submit tips: tips.fbi.gov
+        
+        This information is from official FBI sources.
+        """)
+    
 
 def setup_chat_memory():
     """
@@ -104,9 +167,9 @@ def add_reset_button(msgs):
 
 def display_chat_messages(msgs):
     """
-    Display chat messages with weather-themed avatars.
+    Display chat messages with FBI-themed avatars.
     """
-    avatars = {"human": "🙋‍♂️", "ai": "🌤️"}
+    avatars = {"human": "👤", "ai": "🚨"}
     
     for idx, msg in enumerate(msgs.messages):
         with st.chat_message(msg.type, avatar=avatars[msg.type]):
@@ -120,7 +183,7 @@ def display_chat_messages(msgs):
 
 def display_intermediate_steps(message_index):
     """
-    Display weather tool usage with appropriate icons.
+    Display FBI tool usage with appropriate icons.
     """
     steps = st.session_state.steps.get(str(message_index), [])
     
@@ -128,18 +191,22 @@ def display_intermediate_steps(message_index):
         if step[0].tool == "_Exception":
             continue
         
-        # Weather tool icons
+        # FBI tool icons
         tool_icons = {
-            "geocode_city": "📍",
-            "get_city_temperature": "🌡️", 
-            "get_city_precipitation": "🌧️",
-            "get_city_wind": "💨",
-            "get_city_wind_forecast": "🌪️"
+            "get_fbi_most_wanted": "📋",
+            "search_fbi_person_by_name": "🔍", 
+            "search_fbi_by_field_office": "🏢",
+            "search_fbi_by_status": "📊",
+            "search_fbi_by_classification": "🏷️",
+            "get_fbi_person_details": "📄",
+            "get_fbi_terrorism_list": "🔴",
+            "get_fbi_by_poster_classification": "📌",
+            "get_fbi_advanced_search": "🎯"
         }
         
         tool_name = step[0].tool
         icon = tool_icons.get(tool_name, "🔧")
-        display_name = tool_name.replace('_', ' ').title()
+        display_name = tool_name.replace('_', ' ').title().replace('Fbi', 'FBI')
         
         with st.status(f"{icon} {display_name}: {step[0].tool_input}", state="complete"):
             st.write("**Reasoning:**", step[0].log)
@@ -152,11 +219,11 @@ def handle_user_input(msgs, memory, backend):
     """
     if prompt := st.chat_input(placeholder=CHAT_INPUT_PLACEHOLDER):
         # Display user message
-        st.chat_message("human", avatar="🙋‍♂️").write(prompt)
+        st.chat_message("human", avatar="👤").write(prompt)
         
         # Process through AI
-        with st.chat_message("ai", avatar="🌤️"):
-            with st.spinner("🌦️ Checking weather data..."):
+        with st.chat_message("ai", avatar="🚨"):
+            with st.spinner("🔍 Searching FBI database..."):
                 st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
                 executor = backend.create_agent_executor(memory)
                 response = backend.process_message(prompt, executor, st_cb)
@@ -170,7 +237,7 @@ def handle_user_input(msgs, memory, backend):
 
 def main():
     """
-    Main function that runs the AI Weatherman app.
+    Main function that runs the FBI Information Assistant app.
     """
     # Setup page
     setup_page()
@@ -196,4 +263,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

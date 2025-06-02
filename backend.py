@@ -1,5 +1,5 @@
 """
-LXP - Advanced AI development Workshop: Chatbot backend
+LXP - Advanced AI development Workshop: FBI Chatbot backend
 """
 
 import os
@@ -24,12 +24,12 @@ ConversationalChatAgent._validate_tools = lambda *_, **__: ...
 
 class ChatBackend:
     """
-    Main backend class that handles all AI-related operations.
+    Main backend class that handles all AI-related operations for FBI wanted persons lookup.
     
     This class encapsulates:
     - AI model setup
     - Conversation memory management
-    - Tool integration
+    - FBI API tool integration
     - Monitoring and analytics
     
     Why use a class?
@@ -40,13 +40,13 @@ class ChatBackend:
     
     def __init__(self):
         """
-        Initialize the chat backend with all necessary components.
+        Initialize the FBI chatbot backend with all necessary components.
         
         This method:
         1. Loads environment variables (API keys, etc.)
         2. Sets up monitoring with Langfuse
         3. Initializes the LLM model
-        4. Prepares available tools
+        4. Prepares available FBI tools
         """
         # Load environment variables from config.env file
         # This keeps sensitive information like API keys out of the code
@@ -66,7 +66,7 @@ class ChatBackend:
         # We use Google's Gemini model here, but this could be swapped for others
         self.llm = self._setup_llm()
         
-        # Set up available tools the AI can use
+        # Set up available FBI tools the AI can use
         # Tools extend what the AI can do beyond just text generation
         self.tools = self._setup_tools()
     
@@ -108,15 +108,15 @@ class ChatBackend:
     
     def _setup_tools(self) -> List:
         """
-        Set up tools that the AI can use during conversations.
+        Set up FBI tools that the AI can use during conversations.
         
         Tools extend the AI's capabilities beyond text generation.
-        Examples of tools:
-        - Weather lookup (included)
-        - Web search
-        - Database queries
-        - File operations
-        - API calls
+        FBI tools include:
+        - FBI most wanted list lookup
+        - Person search by name
+        - Search by criteria (gender, age, race)
+        - Person details by ID
+        - Terrorism list lookup
         
         To add a new tool:
         1. Create the tool function in tools.py
@@ -124,39 +124,42 @@ class ChatBackend:
         3. Add it to the list returned here
         
         Returns:
-            List: Available tools for the AI agent
+            List: Available FBI tools for the AI agent
         """
         return [
-            tools.geocode_city,              # City to coordinates conversion
-            tools.get_city_temperature,
-            tools.get_city_precipitation,
-            tools.get_city_wind,
-            tools.get_city_wind_forecast,
-            # Weather lookup by coordinates
-            # You can include multiple tools here as needed:
-            # get_stock_price,
-            # search_web,
-            # query_database,
+            tools.get_fbi_most_wanted,              # Get FBI most wanted list
+            tools.search_fbi_person_by_name,        # Search person by name
+            tools.search_fbi_by_field_office_tool,  # Search by FBI field office
+            tools.search_fbi_by_status_tool,        # Search by status (captured, etc.)
+            tools.search_fbi_by_classification_tool, # Search by classification (main, vicap, etc.)
+            tools.get_fbi_person_details_tool,      # Get detailed person info by ID
+            tools.get_fbi_terrorism_list,           # Get terrorism list
+            tools.get_fbi_by_poster_classification, # Search by poster classification
+            tools.get_fbi_advanced_search,          # Advanced search with sorting
+            # You can include additional tools here as needed:
+            # search_by_reward_amount,
+            # get_fugitive_alerts,
+            # search_by_crime_date,
         ]
     
     def create_agent_executor(self, memory: ConversationBufferMemory) -> AgentExecutor:
         """
-        Create the AI agent that can use tools and maintain conversation context.
+        Create the AI agent that can use FBI tools and maintain conversation context.
         
         This is where the magic happens! The agent:
-        1. Receives user messages
-        2. Decides which tools (if any) to use
-        3. Uses tools to gather information
-        4. Formulates a response based on tool results and conversation history
+        1. Receives user messages about FBI wanted persons
+        2. Decides which FBI tools (if any) to use
+        3. Uses tools to gather information from the FBI database
+        4. Formulates a response based on FBI data and conversation history
         
         Args:
             memory: Conversation history to maintain context
             
         Returns:
-            AgentExecutor: Configured AI agent ready to chat
+            AgentExecutor: Configured AI agent ready to help with FBI inquiries
         """
         # Create the conversational agent
-        # This agent knows how to use tools and maintain conversation context
+        # This agent knows how to use FBI tools and maintain conversation context
         chat_agent = ConversationalChatAgent.from_llm_and_tools(
             llm=self.llm,
             tools=self.tools,
@@ -166,12 +169,12 @@ class ChatBackend:
         )
         
         # Create the executor that runs the agent
-        # The executor handles the conversation flow and tool usage
+        # The executor handles the conversation flow and FBI tool usage
         executor = AgentExecutor.from_agent_and_tools(
             agent=chat_agent,
             tools=self.tools,
             memory=memory,
-            return_intermediate_steps=True,  # Shows tool usage in UI
+            return_intermediate_steps=True,  # Shows FBI tool usage in UI
             handle_parsing_errors=True,      # Gracefully handles AI mistakes
             verbose=True                     # Detailed logging
         )
@@ -183,20 +186,20 @@ class ChatBackend:
                        executor: AgentExecutor, 
                        streamlit_callback=None) -> Dict[str, Any]:
         """
-        Process a user message and generate an AI response.
+        Process a user message about FBI wanted persons and generate an AI response.
         
         This is the main function that:
-        1. Takes user input
-        2. Runs it through the AI agent
+        1. Takes user input about FBI inquiries
+        2. Runs it through the AI agent with FBI tools
         3. Returns the response and any intermediate steps
         
         Args:
-            message: User's input message
+            message: User's input message (FBI-related query)
             executor: The AI agent executor
             streamlit_callback: Optional callback for UI updates
             
         Returns:
-            Dict containing the AI response and intermediate steps
+            Dict containing the AI response and intermediate FBI tool steps
         """
         # Set up callbacks for monitoring and UI updates
         callbacks = [self.langfuse_handler]
@@ -208,7 +211,7 @@ class ChatBackend:
         config["callbacks"] = callbacks
         
         # Process the message through the AI agent
-        # This is where the AI thinks, uses tools, and generates a response
+        # This is where the AI thinks, uses FBI tools, and generates a response
         response = executor.invoke(message, config)
         
         return response
@@ -222,6 +225,6 @@ def get_backend_instance() -> ChatBackend:
     without needing to understand the initialization details.
     
     Returns:
-        ChatBackend: Ready-to-use backend instance
+        ChatBackend: Ready-to-use FBI chatbot backend instance
     """
-    return ChatBackend() 
+    return ChatBackend()

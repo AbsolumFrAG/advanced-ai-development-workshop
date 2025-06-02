@@ -1,305 +1,488 @@
-# 🌤️ AI Weatherman Chatbot Workshop
+# 🚨 FBI Information Assistant Chatbot
 
-Welcome to the Advanced AI Development Workshop! In this hands-on session, you'll learn how to build, customize, and extend an AI-powered chatbot using Python, Streamlit, and LangChain.
+Un chatbot alimenté par l'IA qui vous permet d'accéder aux informations officielles de la base de données des personnes recherchées par le FBI.
 
-## 🎯 Workshop Goals
+## 🎯 Objectifs du Projet
 
-By the end of this workshop, you will:
-- Understand the architecture of AI chatbot applications
-- Learn how to use LangChain for AI agent development
-- Build a working chatbot with tool integration
-- Create your own custom tools (bonus points for multiple tools!)
-- Deploy a chatbot UI with Streamlit
+Ce chatbot vous permet de :
+- Accéder à la liste des personnes les plus recherchées par le FBI
+- Rechercher des personnes spécifiques par nom
+- Filtrer les recherches par critères (sexe, âge, etc.)
+- Obtenir des informations détaillées sur les personnes recherchées
+- Consulter la liste des terroristes les plus recherchés
+- Interagir avec les données FBI via une interface conversationnelle naturelle
 
-## 📋 Prerequisites
+## 📋 Prérequis
 
-- Basic Python knowledge
-- Python 3.9+ installed on your system
-- Text editor or IDE (VS Code recommended)
-- Internet connection for API access
+- Python 3.9+ installé sur votre système
+- Éditeur de texte ou IDE (VS Code recommandé)
+- Connexion Internet pour l'accès à l'API FBI
+- Clé API Google AI Studio (niveau gratuit disponible)
 
-## 🏗️ Project Architecture
-
-Our chatbot follows a clean, modular architecture:
+## 🏗️ Architecture du Projet
 
 ```
-AI Weatherman Chatbot
-├── frontend.py          # Streamlit UI and user interaction
-├── backend.py           # AI logic, memory, and agent orchestration  
-├── tools.py             # Custom tools (weather, and your additions!)
-├── prompts.py           # System prompts and conversation templates
-├── requirements.txt     # Python dependencies
-└── config.env          # Environment variables (API keys)
+FBI Information Assistant
+├── frontend.py          # Interface utilisateur Streamlit
+├── backend.py           # Logique IA et orchestration des agents
+├── tools.py             # Outils personnalisés pour l'API FBI
+├── prompts.py           # Prompts système et modèles de conversation
+├── utils.py             # Fonctions utilitaires
+├── requirements.txt     # Dépendances Python
+└── config.env          # Variables d'environnement (clés API)
 ```
 
-### 🧠 How It Works
+### 🧠 Comment ça fonctionne
 
-1. **Frontend (`frontend.py`)**: Uses [Streamlit](https://docs.streamlit.io/) to create a web interface
-2. **Backend (`backend.py`)**: Orchestrates the AI conversation using LangChain
-3. **Tools (`tools.py`)**: Extends AI capabilities beyond text (weather lookup, your custom tools!)
-4. **Memory System**: Remembers conversation context for natural dialogue
-5. **Monitoring**: Tracks AI usage and performance with Langfuse
+1. **Frontend (`frontend.py`)**: Interface web créée avec [Streamlit](https://docs.streamlit.io/)
+2. **Backend (`backend.py`)**: Orchestre la conversation IA en utilisant LangChain
+3. **Outils (`tools.py`)**: Étend les capacités de l'IA avec l'accès à l'API FBI
+4. **Système de mémoire**: Se souvient du contexte de conversation pour un dialogue naturel
+5. **Monitoring**: Suit l'utilisation de l'IA avec Langfuse
 
-## 🚀 Quick Start Guide
+## 🚀 Guide de Démarrage Rapide
 
-### Step 1: Clone and Navigate to Project
+### Étape 1: Installation des Dépendances
 
 ```bash
-git clone https://github.com/mrodriguez2/advanced-ai-development-workshop.git
-cd advanced-ai-development-workshop
-```
-
-### Step 2: Create Virtual Environment
-
-A virtual environment keeps your project dependencies isolated and prevents conflicts.
-
-#### 🪟 Windows
-```bash
-# Create virtual environment
+# Créer un environnement virtuel
 python -m venv venv
 
-# Activate virtual environment
+# Activer l'environnement virtuel
+# Windows:
 venv\Scripts\activate
-
-# You should see (venv) in your terminal prompt
-```
-
-#### 🍎 macOS
-```bash
-# Create virtual environment
-python3 -m venv venv
-
-# Activate virtual environment
+# Mac/Linux:
 source venv/bin/activate
 
-# You should see (venv) in your terminal prompt
-```
-
-#### 🐧 Linux
-```bash
-# Create virtual environment
-python3 -m venv venv
-
-# Activate virtual environment
-source venv/bin/activate
-
-# You should see (venv) in your terminal prompt
-```
-
-### Step 3: Install Dependencies
-
-```bash
-# Install all required packages
+# Installer les packages requis
 pip install -r requirements.txt
 ```
 
-### Step 4: Set Up Environment Variables
+### Étape 2: Configuration des Variables d'Environnement
 
-Copy the template file and add your API keys:
-
-```bash
-# Copy the template file
-cp config.env.template config.env
-```
-
-Then edit `config.env` with your actual API keys:
+Créez un fichier `config.env` et ajoutez vos clés API :
 
 ```env
-# Google AI Studio API Key (free tier available)
-GOOGLE_AI_STUDIO_API_KEY=your_google_ai_key_here
+# Clé API Google AI Studio (niveau gratuit disponible)
+GOOGLE_AI_STUDIO_API_KEY=votre_cle_google_ai_ici
 
-# Langfuse keys for monitoring
-LANGFUSE_PUBLIC_KEY=your_public_key
-LANGFUSE_SECRET_KEY=your_secret_key
+# Clés Langfuse pour le monitoring (optionnel)
+LANGFUSE_PUBLIC_KEY=votre_cle_publique
+LANGFUSE_SECRET_KEY=votre_cle_secrete
 ```
 
-**Getting API Keys:**
-- Google AI Studio: Visit [ai.google.dev](https://ai.google.dev) and create a free API key
-- Langfuse: Visit [langfuse.com](https://langfuse.com) for monitoring (optional)
+**Obtenir les clés API :**
+- Google AI Studio : Visitez [ai.google.dev](https://ai.google.dev) pour créer une clé API gratuite
+- Langfuse : Visitez [langfuse.com](https://langfuse.com) pour le monitoring (optionnel)
 
-### Step 5: Run the Application
+### Étape 3: Lancer l'Application
 
 ```bash
 streamlit run frontend.py
 ```
 
-Your chatbot will open in your browser at `http://localhost:8501`! 🎉
+Votre chatbot s'ouvrira dans votre navigateur à `http://localhost:8501`! 🎉
 
-## 📚 Understanding the Code
+## 🔍 Fonctionnalités Disponibles
 
-### Frontend Architecture (`frontend.py`)
+### Outils FBI Intégrés (Basés sur les Données Réelles de l'API)
 
-The frontend uses **Streamlit** for the web interface:
+1. **Liste des Plus Recherchés (`get_fbi_most_wanted`)**
+   - Récupère les 8 personnes les plus recherchées par le FBI
+   - Affiche statut (ACTIF/CAPTURÉ), récompenses, avertissements
+   - Informations détaillées : bureau FBI, date de publication, ID unique
 
-```python
-# Key Streamlit components:
-st.chat_message()      # Chat bubbles
-st.chat_input()        # User input field
-st.sidebar.button()    # Reset functionality
-st.session_state       # Persistent data storage
+2. **Recherche par Nom (`search_fbi_person_by_name`)**
+   - Recherche complète avec description physique détaillée
+   - Informations personnelles : dates de naissance, nationalité, alias
+   - Données physiques : taille, poids, couleur des yeux/cheveux
+   - Cicatrices, marques distinctives, professions
+
+3. **Recherche par Bureau FBI (`search_fbi_by_field_office`)**
+   - Filtre par bureau FBI spécifique (ex: "newyork", "losangeles")
+   - Affiche les cas gérés par région géographique
+   - Informations sur les récompenses et statuts par bureau
+
+4. **Recherche par Statut (`search_fbi_by_status`)**
+   - Filtre par statut officiel : "captured" (capturés), "na" (actifs)
+   - Suivi de l'évolution des affaires
+   - Dates de publication et mise à jour
+
+5. **Recherche par Classification Personne (`search_fbi_by_classification`)**
+   - `main` : Liste principale des plus recherchés
+   - `vicap` : Programme d'appréhension de criminels violents
+   - `ecap` : Programme d'alerte pour enfants en danger
+   - `seeking-information` : Cas recherchant des informations
+
+6. **Recherche par Classification Poster (`get_fbi_by_poster_classification`)**
+   - `default` : Personnes recherchées standard
+   - `law-enforcement-assistance` : Assistance aux forces de l'ordre
+   - `missing` : Personnes disparues
+   - `information` : Recherche d'informations
+
+7. **Détails Complets (`get_fbi_person_details`)**
+   - Informations exhaustives par ID de personne
+   - Description physique complète, informations criminelles
+   - Avertissements de sécurité, détails d'enquête
+   - Ressources disponibles (images, fichiers)
+
+8. **Liste Terrorisme (`get_fbi_terrorism_list`)**
+   - Cases liées au terrorisme et à la sécurité nationale
+   - Informations sur la nationalité et les professions
+   - Avertissements spéciaux de sécurité
+
+9. **Recherche Avancée (`get_fbi_advanced_search`)**
+   - Recherche avec options de tri personnalisées
+   - Tri par : publication, titre, sujets
+   - Filtrage par titre avec pagination
+
+### Données Réelles Exploitées
+
+**Informations Personnelles Complètes :**
+- Nom complet, alias, dates de naissance multiples
+- Nationalité, lieu de naissance, langues parlées
+- Professions, liens géographiques
+
+**Description Physique Détaillée :**
+- Taille (pieds/pouces), poids, corpulence
+- Couleur des yeux/cheveux (données brutes et formatées)
+- Cicatrices, tatouages, marques distinctives
+- Teint, couleur de peau
+
+**Informations Criminelles :**
+- Charges spécifiques, sujets d'enquête
+- Numéros NCIC, mandats d'arrêt
+- Avertissements de sécurité spécialisés
+- Détails des affaires avec contexte
+
+**Données d'Enquête :**
+- Bureaux FBI responsables, dates de publication
+- Statut actuel (actif, capturé)
+- Pays et états possibles de localisation
+- Récompenses et montants spécifiques
+
+### Paramètres de Filtrage Officiels
+
+L'API FBI supporte les critères suivants :
+- **`title`** : Nom ou partie du nom de la personne
+- **`field_offices`** : Bureau FBI (ex: "newyork", "chicago", "miami")
+- **`status`** : Statut de l'affaire ("captured", "na")
+- **`person_classification`** : Type de classification ("main", "vicap", "ecap")
+- **`sort_on`** : Critère de tri ("publication", "title", "subjects")
+- **`sort_order`** : Ordre de tri ("asc", "desc")
+- **`page`** et **`pageSize`** : Pagination des résultats
+
+### Exemples d'Utilisation (Données Réelles)
+
+**Recherches de base :**
+```
+"Montre-moi la liste des personnes les plus recherchées par le FBI"
+"Recherche John Smith avec toutes ses informations"
+"Affiche la liste des cas de terrorisme"
 ```
 
-**Learn More**: [Streamlit Documentation](https://docs.streamlit.io/)
+**Filtrage par bureau FBI :**
+```
+"Recherche dans le bureau FBI de Cincinnati"
+"Montre-moi les cas du bureau de Miami"
+"Trouve les personnes recherchées à Little Rock"
+```
 
-### Backend Architecture (`backend.py`)
+**Filtrage par statut officiel :**
+```
+"Trouve les suspects récemment capturés"
+"Montre-moi toutes les affaires actives"
+"Recherche les personnes avec statut 'captured'"
+```
 
-The backend orchestrates AI conversations:
+**Filtrage par classification :**
+```
+"Affiche les cas de la liste principale (main)"
+"Montre-moi les cas VICAP de crimes violents"
+"Trouve les alertes enfants en danger (ECAP)"
+"Recherche les cas seeking-information"
+```
+
+**Classifications de poster :**
+```
+"Montre les cas d'assistance aux forces de l'ordre"
+"Affiche les personnes disparues (missing)"
+"Trouve les cas de recherche d'informations"
+"Montre les personnes recherchées standard"
+```
+
+**Recherches avancées avec données réelles :**
+```
+"Recherche avancée triée par date de publication récente"
+"Trouve 'Dixon' avec toutes ses informations physiques"
+"Montre les résultats triés par titre alphabétique"
+```
+
+**Informations exhaustives :**
+```
+"Donne-moi tous les détails pour la personne ID d79f8572987541d2b4c9e4119b8dd444"
+"Affiche la description physique complète de cette personne"
+"Montre les avertissements de sécurité et détails d'enquête"
+```
+
+**Types de données récupérées :**
+- **Statut en temps réel** : 🔴 ACTIF / 🟢 CAPTURÉ
+- **Informations physiques** : Taille (5'11"), poids (215 lbs), cicatrices
+- **Données biographiques** : Naissance, nationalité, alias
+- **Détails criminels** : Charges spécifiques, avertissements de sécurité
+- **Contexte d'enquête** : Bureau responsable, dates, récompenses
+
+## 🛠️ Comprendre le Code
+
+### Architecture Frontend (`frontend.py`)
+
+Le frontend utilise **Streamlit** pour l'interface web :
+
+```python
+# Composants Streamlit clés :
+st.chat_message()      # Bulles de conversation
+st.chat_input()        # Champ de saisie utilisateur
+st.sidebar.button()    # Fonctionnalité de réinitialisation
+st.session_state       # Stockage de données persistantes
+```
+
+### Architecture Backend (`backend.py`)
+
+Le backend orchestre les conversations IA :
 
 ```python
 class ChatBackend:
     def __init__(self):
-        self.llm = ChatGoogleGenerativeAI()     # AI model
-        self.tools = [get_weather]              # Available tools
-        self.memory = ConversationBufferMemory() # Context memory
-    
-    def create_agent_executor(self):
-        # Creates an AI agent that can use tools
-        return ConversationalChatAgent.from_llm_and_tools(...)
+        self.llm = ChatGoogleGenerativeAI()     # Modèle IA
+        self.tools = [get_fbi_tools]            # Outils disponibles
+        self.memory = ConversationBufferMemory() # Mémoire de contexte
 ```
 
-### Tool System (`tools.py`)
+### Système d'Outils (`tools.py`)
 
-Tools extend what your AI can do:
+Les outils étendent les capacités de l'IA :
 
 ```python
 @tool
-def get_weather(city: str) -> str:
-    """Get weather for a city using wttr.in API"""
-    # Your tool implementation here
+def get_fbi_most_wanted() -> str:
+    """Obtient la liste des personnes les plus recherchées par le FBI"""
+    # Votre implémentation d'outil ici
 ```
 
-### Memory and Context
+## ⚠️ Considérations Importantes
 
-The chatbot remembers conversation history using LangChain's memory system:
-- **ConversationBufferMemory**: Stores full conversation
-- **StreamlitChatMessageHistory**: Integrates with Streamlit UI
+### Sécurité et Responsabilité
 
-## 🛠️ Workshop Challenges
+- **Source Officielle**: Les données proviennent de l'API officielle du FBI
+- **Utilisation Responsable**: Ne pas utiliser pour harceler ou diffamer
+- **Signalement**: Si vous avez des informations sur une personne recherchée, contactez les autorités
 
-### Challenge 1: Create Your Own Tool
+### Contacts d'Urgence
 
-Add a new tool to `tools.py`. Here are some ideas using [free APIs](https://free-apis.github.io/#/browse):
+- **FBI**: 1-800-CALL-FBI (1-800-225-5324)
+- **Conseils en ligne**: [tips.fbi.gov](https://tips.fbi.gov)
+- **Urgence locale**: Contactez votre police locale
 
-**Easy Tools:**
-- 🎭 **Jokes**: Get random jokes from JokeAPI
-- 🎲 **Random Facts**: Fetch interesting facts
-- 🔤 **Word Definitions**: Dictionary API integration
+### Bureaux FBI Disponibles
 
-**Medium Tools:**
-- 📰 **News Headlines**: Current news from NewsAPI
-- 💱 **Currency Converter**: Exchange rate lookup
-- 🎬 **Movie Info**: OMDB API for movie details
+**Bureaux principaux :**
+- `newyork` - New York
+- `losangeles` - Los Angeles
+- `chicago` - Chicago
+- `miami` - Miami
+- `philadelphia` - Philadelphie
+- `boston` - Boston
+- `detroit` - Detroit
+- `houston` - Houston
+- `atlanta` - Atlanta
+- `phoenix` - Phoenix
+- `baltimore` - Baltimore
+- `cleveland` - Cleveland
 
-**Advanced Tools:**
-- 🌍 **Location Info**: Geocoding and location data
-- 📊 **Stock Prices**: Financial data integration
-- 🗺️ **Travel Info**: Distance and route calculation
+**Classifications Spéciales :**
+- `main` - Liste principale des plus recherchés
+- `vicap` - Programme d'appréhension de criminels violents
+- `ecap` - Programme d'alerte pour enfants en danger
+- `seeking-information` - Cas recherchant des informations du public
 
-### Challenge 2: Multi-Tool Integration
+**Statuts Disponibles :**
+- `captured` - Personnes capturées
+- `na` - Non applicable / Affaires actives
 
-**Bonus Points**: Create a chatbot that uses multiple tools together!
+## 📊 **Structure des Données FBI Exploitées**
 
-Example: A travel assistant that combines:
-- Weather for destination
-- Currency conversion
-- Local news/events
-- Flight information
+Le chatbot exploite pleinement la richesse de l'API officielle du FBI avec **1053+ personnes** dans la base de données.
 
-### Tool Template
+### 🔍 **Données Personnelles Complètes**
+
+**Exemple de données réelles extraites :**
+```json
+{
+  "title": "DAVEONTE JAMES DIXON",
+  "status": "captured",  // 🟢 CAPTURÉ ou 🔴 ACTIF
+  "reward_text": "Reward of up to $25,000",
+  "height_min": 73,     // 6'1"
+  "weight": "215 pounds",
+  "eyes_raw": "Brown",
+  "hair_raw": "Black",
+  "race_raw": "Black",
+  "warning_message": "SHOULD BE CONSIDERED ARMED AND DANGEROUS",
+  "field_offices": ["cincinnati"],
+  "scars_and_marks": "Dixon has a tattoo on his left forearm"
+}
+```
+
+### 📋 **Types de Classifications Réelles**
+
+**Poster Classifications :**
+- `law-enforcement-assistance` : Assistance aux forces de l'ordre (Dixon, Hardin)
+- `missing` : Personnes disparues (Fleming, Hatfield) 
+- `default` : Personnes recherchées standard (Martinez, Astorga)
+- `information` : Recherche d'informations (Pike, Panjaki)
+
+**Person Classifications :**
+- `Main` : Liste principale des plus recherchés
+- `Victim` : Victimes dans des affaires (Morgan)
+
+### 🏢 **Bureaux FBI Actifs**
+
+Bureaux avec des affaires en cours :
+- `cincinnati`, `littlerock`, `neworleans`
+- `miami`, `birmingham`, `sacramento`
+- `charlotte`, `indianapolis`, `phoenix`
+
+### ⚠️ **Avertissements de Sécurité Réels**
+
+Messages d'avertissement officiels :
+- "SHOULD BE CONSIDERED ARMED AND DANGEROUS"
+- "SHOULD BE CONSIDERED ARMED AND DANGEROUS WITH VIOLENT TENDENCIES"
+- "SHOULD BE CONSIDERED ARMED AND DANGEROUS AND AN ESCAPE RISK"
+
+### 💰 **Récompenses Actuelles**
+
+Montants réels offerts par le FBI :
+- **$75,000** : Emily Pike (meurtre)
+- **$50,000** : Asha Jaquilla Degree (disparition)
+- **$25,000** : Daveonte James Dixon (tentative de meurtre)
+- **$20,000** : Grant Matthew Hardin (évasion)
+
+### 📅 **Données Temporelles**
+
+- **Publication** : Dates de mise en ligne des avis
+- **Modification** : Dernières mises à jour des dossiers
+- **Chronologie** : Affaires de 1986 à 2025
+
+### 🌍 **Données Géographiques**
+
+- **Possible Countries** : MEX, USA (Martinez)
+- **Possible States** : US-AL, US-FL, US-TX (affaires multi-états)
+- **Coordinates** : Localisation précise quand disponible
+
+## 💡 **Avantages de l'Intégration Complète**
+
+✅ **Données 100% Officielles** - Source directe FBI API
+✅ **Informations Temps Réel** - Statuts mis à jour (capturé/actif)
+✅ **Descriptions Physiques Précises** - Taille, poids, signes distinctifs
+✅ **Avertissements de Sécurité** - Messages officiels du FBI
+✅ **Géolocalisation** - Bureaux responsables, états possibles
+✅ **Classification Professionnelle** - Types d'affaires et priorités
+✅ **Historique Complet** - De 1986 à aujourd'hui
+✅ **Multilinguisme** - Fiches en plusieurs langues disponibles
+
+## 🔧 Personnalisation
+
+### Ajouter de Nouveaux Outils
+
+Pour créer un nouvel outil FBI :
 
 ```python
 @tool
-def your_custom_tool(parameter: str) -> str:
-    """Describe what your tool does.
+def votre_outil_personnalise(parametre: str) -> str:
+    """Décrit ce que fait votre outil.
     
     Args:
-        parameter: Describe the input parameter
+        parametre: Décrit le paramètre d'entrée
         
     Returns:
-        A string with the tool's response
+        Une chaîne avec la réponse de l'outil
     """
     try:
-        # Your API call here
-        response = requests.get(f"https://api.example.com/{parameter}")
+        # Votre appel API ici
+        response = requests.get(f"https://api.fbi.gov/wanted/v1/{parametre}")
         data = response.json()
         
-        # Format and return results
-        return f"Your formatted response: {data}"
+        # Formater et retourner les résultats
+        return f"Votre réponse formatée: {data}"
         
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"Erreur: {str(e)}"
 ```
 
-**Don't forget to:**
-1. Import your tool in `backend.py`
-2. Add it to the tools list in `_setup_tools()`
-3. Test it in the chat interface!
+**N'oubliez pas de :**
+1. Importer votre outil dans `backend.py`
+2. L'ajouter à la liste des outils dans `_setup_tools()`
+3. Le tester dans l'interface de chat !
 
-## 🔧 Customization Ideas
+### Modifier la Personnalité de l'IA
 
-### Modify the AI Personality
-
-Edit `prompts.py` to change how your AI behaves:
+Éditez `prompts.py` pour changer le comportement de votre IA :
 
 ```python
 SYSTEM_PROMPT = """
-You are a helpful travel assistant specializing in...
-[Your custom personality here]
+Vous êtes un assistant spécialisé dans les informations FBI...
+[Votre personnalité personnalisée ici]
 """
 ```
 
-### Enhance the UI
+## 🌐 Ressources Utiles
 
-Streamlit offers many customization options:
-- Custom themes and styling
-- Sidebar widgets and controls
-- Charts and data visualization
-- File upload capabilities
+- **[Documentation Streamlit](https://docs.streamlit.io/)**: Guide complet pour créer des applications web
+- **[API FBI](https://www.fbi.gov/wanted/api)**: Documentation officielle de l'API FBI
+- **[Documentation LangChain](https://python.langchain.com/)**: Framework pour applications IA
+- **[Google AI Studio](https://ai.google.dev)**: Accès gratuit aux modèles IA
 
-### Add Error Handling
+## 🐛 Dépannage
 
-Improve user experience with better error messages and fallbacks.
+### Problèmes Courants
 
-## 🌐 Useful Resources
-
-- **[Streamlit Documentation](https://docs.streamlit.io/)**: Complete guide to building web apps
-- **[Free APIs List](https://free-apis.github.io/#/browse)**: Hundreds of free APIs for your tools
-- **[LangChain Docs](https://python.langchain.com/)**: AI application framework
-- **[Google AI Studio](https://ai.google.dev)**: Free AI model access
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**"Module not found" errors:**
+**Erreurs "Module non trouvé" :**
 ```bash
-# Make sure virtual environment is activated
+# Assurez-vous que l'environnement virtuel est activé
 source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
-# Reinstall requirements
+# Réinstaller les dépendances
 pip install -r requirements.txt
 ```
 
-**API key errors:**
-- Check your `config.env` file exists
-- Verify API keys are correct
-- Ensure no extra spaces in the file
+**Erreurs de clé API :**
+- Vérifiez que votre fichier `config.env` existe
+- Vérifiez que les clés API sont correctes
+- Assurez-vous qu'il n'y a pas d'espaces supplémentaires dans le fichier
 
-**Streamlit won't start:**
+**Streamlit ne démarre pas :**
 ```bash
-# Check if port is available
+# Vérifiez si le port est disponible
 streamlit run frontend.py
 ```
 
-## 📝 Workshop Submission
+**Erreurs API FBI :**
+- L'API FBI est publique mais peut avoir des limites de débit
+- Vérifiez votre connexion Internet
+- Certaines requêtes peuvent prendre du temps
 
-To showcase your work:
+## 📝 Utilisation Éthique
 
-1. Create at least one custom tool
-2. Test your chatbot thoroughly
-3. Document your additions in this README
+Ce chatbot est conçu pour :
+- ✅ Accéder aux informations publiques du FBI
+- ✅ Éduquer sur les personnes recherchées
+- ✅ Faciliter le signalement d'informations aux autorités
+
+Ne l'utilisez pas pour :
+- ❌ Harceler ou diffamer des individus
+- ❌ Activités illégales ou non éthiques
+- ❌ Diffuser de fausses informations
 
 ---
 
-Happy coding!
+**Note légale**: Ce projet utilise l'API publique du FBI et est destiné à des fins éducatives et informatives. Les utilisateurs sont responsables de l'utilisation éthique et légale des informations obtenues.
